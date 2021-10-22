@@ -1,10 +1,5 @@
 //User types in text input app puls in formation from user input
 var APIKey = "c97d9ae1e1c2e78b1a122d4cf4d4f9c5"
-var city
-let cityTemp
-var cityWind
-var cityHumidity
-var cityUV
 var DateTime = luxon.DateTime
 var currentDate = (DateTime.now().toLocaleString());
 var plusOneDay = (DateTime.now().plus({days:1}).endOf('day').toLocaleString());
@@ -12,11 +7,9 @@ var plusTwoDay = (DateTime.now().plus({days:2}).endOf('day').toLocaleString());
 var plusThreeDay = (DateTime.now().plus({days:3}).endOf('day').toLocaleString());
 var plusFourDay = (DateTime.now().plus({days:4}).endOf('day').toLocaleString());
 var plusFiveDay = (DateTime.now().plus({days:5}).endOf('day').toLocaleString());
-var weatherInformation
-//Lat lon faint georgeor city declared by user using API call below.
-// http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
 function geoEncoding() {
-    var weatherInformation = fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},&appid=${APIKey}`)
+    //API call for lat lon
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},&appid=${APIKey}`)
     .then(function(response){
         return response.json();
     })
@@ -25,22 +18,29 @@ function geoEncoding() {
         var cityLon = cityInformation[0].lon
         return {cityLat, cityLon}
     })
+    //API call using lat lon for weather data
     .then(function({cityLat, cityLon}){
         return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&appid=${APIKey}&units=imperial`)
     })
     .then(function(response){
         return response.json();
     })
+    //updates current and forecasted weather information
     .then(function(weatherInformation){
+        //Sets current weather data
+        $("#UV").text(`UV Index: ${weatherInformation.current.uvi}`)
+        $("#current-temp").text(`Temp: ${weatherInformation.current.temp} F`);
+        $("#wind").text(`Wind Speed: ${weatherInformation.current.wind_speed} MPH`);
+        $("#humidity").text(`Humidity: ${weatherInformation.current.humidity} Percent`);
+        //current weather icon
+        var currentWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.current.weather[0].icon + ".png"
+        $("#current-wicon").attr('src', currentWeatherIcon)
+        //display forecast dates
         $("#plus-one-day").text(plusOneDay);
         $("#plus-two-day").text(plusTwoDay);
         $("#plus-three-day").text(plusThreeDay);
         $("#plus-four-day").text(plusFourDay);
         $("#plus-five-day").text(plusFiveDay);
-        $("#UV").text(`UV Index: ${weatherInformation.current.uvi}`)
-        $("#current-temp").text(`Temp: ${weatherInformation.current.temp} F`);
-        $("#wind").text(`Wind Speed: ${weatherInformation.current.wind_speed} MPH`);
-        $("#humidity").text(`Humidity: ${weatherInformation.current.humidity} Percent`);
         //update forecasted temperatures
         $("#plus-one-day-temp").text(`Temp: ${weatherInformation.daily[0].temp.day} F`);
         $("#plus-two-day-temp").text(`Temp: ${weatherInformation.daily[1].temp.day} F`);
@@ -59,6 +59,17 @@ function geoEncoding() {
         $("#plus-three-day-humidity").text(`Humidity: ${weatherInformation.daily[2].humidity} Percent`);
         $("#plus-four-day-humidity").text(`Humidity: ${weatherInformation.daily[3].humidity} Percent`);
         $("#plus-five-day-humidity").text(`Humidity: ${weatherInformation.daily[4].humidity} Percent`); 
+        //weather icons for forecast
+        var oneDayWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.daily[0].weather[0].icon + ".png"
+        $("#one-day-wicon").attr('src', oneDayWeatherIcon)
+        var twoDayWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.daily[1].weather[0].icon + ".png"
+        $("#two-day-wicon").attr('src', twoDayWeatherIcon)
+        var threeDayWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.daily[2].weather[0].icon + ".png"
+        $("#three-day-wicon").attr('src', threeDayWeatherIcon)
+        var fourDayWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.daily[3].weather[0].icon + ".png"
+        $("#four-day-wicon").attr('src', fourDayWeatherIcon)
+        var fiveDayWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.daily[3].weather[0].icon + ".png"
+        $("#five-day-wicon").attr('src', fiveDayWeatherIcon)
         console.log(weatherInformation);
     })
 }
@@ -67,16 +78,18 @@ function populateValues () {
     $("#city-name").text(`City Name: ${city} ${currentDate}`);
 }
 
+function appendSearchHistory() {
+    var cityName = $("city").val().trim();
+}
+
 var getWeather = function() {
     $("#city-btn").click( function() {
         city=$("#city").val().trim();
         geoEncoding();
         populateValues();
+        // appendSearchHistory();
         $("#city").val('');
     })
-}
-var updateForecast = function() {
-    
 }
 getWeather();
 
