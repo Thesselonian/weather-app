@@ -1,2 +1,2 @@
 # weather-app
-Weather app pulls data from API and displays
+#Weather app pulls data from API and displays#
