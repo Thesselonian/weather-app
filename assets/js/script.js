@@ -1,12 +1,15 @@
 //User types in text input app puls in formation from user input
 var APIKey = "c97d9ae1e1c2e78b1a122d4cf4d4f9c5"
 var DateTime = luxon.DateTime
+var searchedCityNumber = 0
+var city
 var currentDate = (DateTime.now().toLocaleString());
 var plusOneDay = (DateTime.now().plus({days:1}).endOf('day').toLocaleString());
 var plusTwoDay = (DateTime.now().plus({days:2}).endOf('day').toLocaleString());
 var plusThreeDay = (DateTime.now().plus({days:3}).endOf('day').toLocaleString());
 var plusFourDay = (DateTime.now().plus({days:4}).endOf('day').toLocaleString());
 var plusFiveDay = (DateTime.now().plus({days:5}).endOf('day').toLocaleString());
+
 function geoEncoding() {
     //API call for lat lon
     fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},&appid=${APIKey}`)
@@ -29,6 +32,15 @@ function geoEncoding() {
     .then(function(weatherInformation){
         //Sets current weather data
         $("#UV").text(`UV Index: ${weatherInformation.current.uvi}`)
+        if(weatherInformation.current.uvi < 2) {
+            $("#UV").addClass("bg-success")
+        }
+        else if (weatherInformation.current.uvi > 2 && weatherInformation.current.uvi < 4) {
+            $("#UV").addClass("bg-warning")
+        }
+        else {
+            $("#UV").addClass("bg-danger")
+        };
         $("#current-temp").text(`Temp: ${weatherInformation.current.temp} F`);
         $("#wind").text(`Wind Speed: ${weatherInformation.current.wind_speed} MPH`);
         $("#humidity").text(`Humidity: ${weatherInformation.current.humidity} Percent`);
@@ -70,7 +82,6 @@ function geoEncoding() {
         $("#four-day-wicon").attr('src', fourDayWeatherIcon)
         var fiveDayWeatherIcon = "http://openweathermap.org/img/w/" + weatherInformation.daily[3].weather[0].icon + ".png"
         $("#five-day-wicon").attr('src', fiveDayWeatherIcon)
-        console.log(weatherInformation);
     })
 }
 
@@ -79,7 +90,18 @@ function populateValues () {
 }
 
 function appendSearchHistory() {
-    var cityName = $("city").val().trim();
+    var searchedCity = $('<button/>', {
+        // need ID if saving to local storage
+        // id: "searched-city-" + searchedCityNumber,
+        text: city,
+        click: function() {
+            city = $(this).text();
+            geoEncoding(); 
+            populateValues();
+        }
+    });
+    $('#search-history').append(searchedCity).end();
+    searchedCityNumber++
 }
 
 var getWeather = function() {
@@ -87,7 +109,7 @@ var getWeather = function() {
         city=$("#city").val().trim();
         geoEncoding();
         populateValues();
-        // appendSearchHistory();
+        appendSearchHistory();
         $("#city").val('');
     })
 }
