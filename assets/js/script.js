@@ -94,6 +94,7 @@ function appendSearchHistory() {
         // need ID if saving to local storage
         // id: "searched-city-" + searchedCityNumber,
         text: city,
+        class: "row",
         click: function() {
             city = $(this).text();
             geoEncoding(); 
@@ -106,10 +107,15 @@ function appendSearchHistory() {
 
 var getWeather = function() {
     $("#city-btn").click( function() {
+        //assigns the text value entered by user to the city variable
         city=$("#city").val().trim();
+        //api call to get data and write it to respective areas
         geoEncoding();
+        //writes city name to the current weather section
         populateValues();
+        //append city that was searched to the search history element
         appendSearchHistory();
+        //erase the textbox value
         $("#city").val('');
     })
 }

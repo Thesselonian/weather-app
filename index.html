@@ -17,15 +17,18 @@
         integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
     <script defer src="assets/js/script.js"></script>
 </head>
+<!-- header for the page -->
 <header class="text-color-white text-center bg-primary">Weather Dashboard</header>
 
 <body>
     <section class="row">
+        <!--Search Form  -->
         <div class="col-3 border-bottom m-3">
             <label for="city">Search for a City:</label>
             <input type="text" name="city" id="city">
             <button id="city-btn">Search</button>
         </div>
+        <!-- Current weather section -->
         <div class="col border m-3">
             <div>
                 <h2 id="city-name">City Name: </h2>
@@ -40,10 +43,12 @@
         </div>
     </section>
     <section class="row">
+        <!-- Search history -->
         <div class="col-3 m-3">
             <ul id="search-history">
             </ul>
         </div>
+        <!-- 5 day forecast -->
         <div class="col m-3">
             <h2>5-day forecast:</h2>
             <div id="five-day-forecast" class="row">
