@@ -3,4 +3,4 @@
 
 Here is a screenshot of the application:
 
-![Weather App Screenshot](/assets/images/weather-app.JPG "Weather App Screenshot")
+![Weather App Screenshot](/assets/images/weather-dashboard.JPG "Weather App Screenshot")
