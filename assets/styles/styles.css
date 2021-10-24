@@ -5,3 +5,15 @@
 .text-color-white {
     color: white;
 }
+
+.display-none {
+    display: none;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-flex {
+    display: flex;
+}

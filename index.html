@@ -29,7 +29,7 @@
             <button id="city-btn">Search</button>
         </div>
         <!-- Current weather section -->
-        <div class="col border m-3">
+        <div id="current-weather" class="display-none col border m-3">
             <div>
                 <h2 id="city-name">City Name: </h2>
                 <img id="current-wicon" src="" alt="Weather Icon">
@@ -37,21 +37,19 @@
             <p id="current-temp">Temp: </p>
             <p id="wind">Wind Speed: </p>
             <p id="humidity">Humidity: </p>
-            <p id="UV">UV Index: </p>
-            <div class="row">
-            </div>
+            <span id="UV">UV Index: </span>
         </div>
     </section>
-    <section class="row">
+    <section id="forecast-weather" class="row">
         <!-- Search history -->
         <div class="col-3 m-3">
             <ul id="search-history">
             </ul>
         </div>
         <!-- 5 day forecast -->
-        <div class="col m-3">
+        <div id="five-day-forecast" class="display-none col m-3">
             <h2>5-day forecast:</h2>
-            <div id="five-day-forecast" class="row">
+            <di class="row">
                 <div class="col">
                     <h4 class="date font-weight-bold" id="plus-one-day"></h4>
                     <div>
