@@ -12,7 +12,7 @@ var citySearchHistory = JSON.parse(localStorage.getItem("search-history")) || []
 
 function geoEncoding() {
     //API call for lat lon
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},&appid=${APIKey}`)
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city},&appid=${APIKey}`)
     .then(function(response){
         return response.json();
     })
